@@ -1,0 +1,12 @@
+mysql -u dlugoleckia -p
+SHOW DATABASES;
+Use dlugoleckia
+SHOW TABLES
+zad 1
+create table postac (id_postaci int auto_increment primary key, nazwa varchar(40), rodzaj enum('wiking','ptak','kobieta'), data_ur date, wiek int unsigned);
+INSERT INTO postac (nazwa,rodzaj,data_ur,wiek) values
+    -> ('Bjorn', 'wiking', '1971-05-01', '49'),
+    -> ('Drozd', 'ptak', '2019-01-01', '1'),
+    -> ('Tesciowa', 'kobieta', '1950-02-03', '70');
+SELECT * FROM dlugoleckia.postac;
+UPDATE postac set wiek='88' where rodzaj='kobieta';
