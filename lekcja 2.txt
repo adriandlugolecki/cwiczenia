@@ -1,0 +1,24 @@
+1
+SELECT * FROM postac WHERE rodzaj = 'wiking' AND nazwa!='Bjorn' ORDER BY data_ur ASC;
+DELETE FROM postac WHERE id_postaci=4;
+DELETE FROM postac WHERE id_postaci=6;
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE postac MODIFY id_postaci int;
+ALTER TABLE postac DROP PRIMARY KEY; 
+
+2
+ALTER TABLE postac ADD COLUMN pesel varchar(11) FIRST;
+UPDATE postac SET pesel='jedenascie cyfer'+id_postaci;
+ALTER TABLE postac ADD PRIMARY KEY(pesel);
+ALTER TABLE postac MODIFY rodzaj enum ('wiking','ptak','kobieta','syrena');
+INSERT INTO postac(pesel,id_postaci,nazwa,rodzaj,data_ur) VALUES('77889933551',9,'Gertruda Nieszczera','syrena','1700-01-01');
+3
+SELECT nazwa FROM postac WHERE nazwa LIKE '%a%';
+UPDATE postac SET statek = 'Smok' WHERE nazwa LIKE '%a%';
+UPDATE statek SET max_ladownosc = mex_ladownosc * 0.7 WHERE data_wodowania BETWEEN '1901-01-01' AND '2001-12-31';
+4
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena','waz');
+INSERT INTO postac(pesel,id_postaci,nazwa,rodzaj,data_ur) VALUES('00234761231','10','Loko','waz','1700-08-28');
+CREATE TABLE marynarz LIKE postac;
