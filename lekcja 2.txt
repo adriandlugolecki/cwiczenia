@@ -21,4 +21,18 @@ UPDATE statek SET max_ladownosc = mex_ladownosc * 0.7 WHERE data_wodowania BETWE
 4
 ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena','waz');
 INSERT INTO postac(pesel,id_postaci,nazwa,rodzaj,data_ur) VALUES('00234761231','10','Loko','waz','1700-08-28');
-CREATE TABLE marynarz LIKE postac;
+CREATE TABLE marynarz SELECT * FROM postac WHERE statek IS NOT NULL;
+ALTER TABLE marynarz MODIFY id_postaci INT PRIMARY KEY;
+ALTER TABLE marynarz ADD FOREIGN KEY (pesel) REFERENCES postac(pesel) ON DELETE CASCADE;
+ALTER TABLE marynarz ADD FOREIGN KEY (statek) REFERENCES statek(nazwa_statku) ON DELETE SET NULL;
+ALTER TABLE postac ADD FOREIGN KEY (statek) REFERENCES marynarz(statek) ON UPDATE CASCADE;
+5
+UPDATE marynarz SET statek = NULL;
+DELETE FROM postac WHERE rodzaj = 'wiking' ORDER BY wiek DESC LIMIT 1;
+DELETE FROM statek;
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+ALTER TABLE marynarz DROP FOREIGN KEY marynarz_ibfk_2;
+DROP TABLE statek;
+CREATE TABLE zwierz(id INT PRIMARY KEY auto_increment, nazwa VARCHAR(40), wiek INT);
+INSERT INTO zwierz VALUES(NULL, 'Drozd', 1);
+INSERT INTO zwierz VALUES(NULL, 'Loko', 5);
