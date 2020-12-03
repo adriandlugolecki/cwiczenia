@@ -16,5 +16,4 @@ SELECT k.nazwa AS kreatura, z.nazwa AS nazwaZasobu FROM kreatura k JOIN (zasob z
 SELECT x.nazwa, y.nazwa FROM kreatura x JOIN kreatura y WHERE y.idKreatury - x.idKreatury = 5;
 5
 SELECT k.rodzaj, SUM(z.waga*z.ilosc)/SUM(z.ilosc) AS sredniaWagaZasobow FROM kreatura k JOIN (zasob z JOIN ekwipunek e ON z.idZasobu = e.idZasobu) ON k.idKreatury = e.Idkreatury GROUP BY k.rodzaj HAVING k.rodzaj NOT IN ('waz', 'malpa') AND SUM(e.ilosc) < 30;
-
 SELECT rodzaj, MAX(CONCAT(dataUr, "|", nazwa)) AS najmlodszaKreatura, MIN(CONCAT(dataUr, "|", nazwa)) AS najstarszaKreatura FROM kreatura GROUP BY rodzaj;
