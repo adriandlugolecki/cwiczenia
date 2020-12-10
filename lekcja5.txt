@@ -1,0 +1,13 @@
+CREATE TABLE etapy_wyprawy AS SELECT * FROM wikingowie.etapy_wyprawy;
+CREATE TABLE sektor AS SELECT * FROM wikingowie.sektor;
+CREATE TABLE wyprawa AS SELECT * FROM wikingowie.wyprawa;
+CREATE TABLE uczestnicy AS SELECT * FROM wikingowie.uczestnicy;
+ALTER TABLE uczestnicy ADD PRIMARY KEY (id_wyprawy, id_uczestnika);
+ALTER TABLE uczestnicy ADD FOREIGN KEY (id_uczestnika) REFERENCES kreatura(idKreatury);
+ALTER TABLE etapy_wyprawy MODIFY idEtapu int NOT NULL PRIMARY KEY auto_increment;
+ALTER TABLE sektor MODIFY id_sektora int NOT NULL PRIMARY KEY;
+ALTER TABLE wyprawa MODIFY id_wyprawy int NOT NULL PRIMARY KEY auto_increment;
+LTER TABLE etapy_wyprawy ADD FOREIGN KEY (sektor) REFERENCES sektor(id_sektora);
+ALTER TABLE etapy_wyprawy ADD FOREIGN KEY (idWyprawy) REFERENCES wyprawa(id_wyprawy);
+SELECT nazwa AS brak_wyprawy FROM kreatura LEFT JOIN uczestnicy ON uczestnicy.id_uzestnika = kreatura.idKreatury WHERE id_wyprawy IS NULL;
+SELECT w.nazwa, SUM(e.ilosc) AS sumaIlosciEkwipunku FROM wyprawa w JOIN (uczestnicy u JOIN ekwipunek e ON e.idKreatury = u.id_uczestnika) ON w.id_wyprawy = u.id_wyprawy GROUP BY w.nazwa;
