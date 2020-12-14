@@ -11,3 +11,14 @@ LTER TABLE etapy_wyprawy ADD FOREIGN KEY (sektor) REFERENCES sektor(id_sektora);
 ALTER TABLE etapy_wyprawy ADD FOREIGN KEY (idWyprawy) REFERENCES wyprawa(id_wyprawy);
 SELECT nazwa AS brak_wyprawy FROM kreatura LEFT JOIN uczestnicy ON uczestnicy.id_uzestnika = kreatura.idKreatury WHERE id_wyprawy IS NULL;
 SELECT w.nazwa, SUM(e.ilosc) AS sumaIlosciEkwipunku FROM wyprawa w JOIN (uczestnicy u JOIN ekwipunek e ON e.idKreatury = u.id_uczestnika) ON w.id_wyprawy = u.id_wyprawy GROUP BY w.nazwa;
+2
+SELECT w.nazwa, COUNT(id_uczestnika) AS liczbaUczestnikow, GROUP_CONCAT(" ", k.nazwa) AS nazwyUczesntikow FROM wyprawa w JOIN (uczestnicy u JOIN kreatura k ON u.id_uczestnika = k.idKreatury) ON u.id_wyprawy = w.id_wyprawy GROUP BY w.nazwa;
+SELECT e.idEtapu, s.nazwa AS nazwaLokacji, k.nazwa AS kierownik FROM (etapy_wyprawy e JOIN (wyprawa w JOIN kreatura k ON k.idKreatury = w.kierownik) ON e.idWyprawy = w.id_wyprawy) JOIN sektor s ON sektor = s.id_sektora ORDER BY data_rozpoczecia, kolejnosc;
+3
+SELECT s.nazwa, IFNULL(COUNT(idWyprawy), 0) AS iloscOdwiedzin FROM sektor s LEFT JOIN etapy_wyprawy ON s.id_sektora = sektor GROUP BY s.nazwa;
+SELECT k.nazwa, IF(COUNT(id_wyprawy)>0, 'bral udzial w wyprawie', 'nie bral udzialu w wyprawie') AS udzial_w_wyprawie FROM kreatura k LEFT JOIN uczestnicy ON k.idKreatury = id_uczestnika GROUP BY k.nazwa;
+4
+SELECT w.nazwa, SUM(length(dziennik)) AS SumaZnakowDziennika FROM wyprawa w JOIN etapy_wyprawy ON idWyprawy = w.id_wyprawy GROUP BY w.nazwa HAVING(SumaZnakowDziennika < 400);
+SELECT id_wyprawy, SUM(zasob.waga*ekwipunek.ilosc)/COUNT(id_uczestnika) AS sredniaWagaZasobow FROM uczestnicy JOIN (ekwipunek JOIN zasob ON ekwipunek.idZasobu = zasob.idZasobu) ON uczestnicy.id_uczestnika = ekwipunek.idKreatury GROUP BY id_wyprawy;
+5
+select k.nazwa, datediff(w.data_rozpoczecia, k.dataUr) as wiek_w_dniach from  uczestnicy as u inner join kreatura as k inner join wyprawa as w inner join etapy_wyprawy as ew on w.id_wyprawy=u.id_wyprawy and u.id_uczestnika=k.idKreatury and w.id_wyprawy=ew.idWyprawy where ew.sektor=7;
