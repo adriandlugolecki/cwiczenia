@@ -1,0 +1,23 @@
+Projekt Bazy danych Serwisu Komputerowego przechowuje informacje o: 
+*Pracownikach (imię, nazwisko, stanowisko, date zatrudnienia i zwolnienia, login i haslo),
+*dziale do którego są przypisani pracownicy Hardware(sprzęt komputerowy) czy Software(oprogramowanie),
+*Zamowieniach(nazwa usługi, typ usługi, o tym czy istnieją uszkodzenia, dacie przyjęcia i zakonczenia zamowienia),
+*Statusie czy dane zamówienie jest już gotowe,
+*Koszcie (kwota całkowita),
+*Kliencie (imie, nazwisko, numer_klienta (informuje on czy klient prowadzi firme czy nie), telefon do klienta, nazwa firmy i regon),
+*Adresie klienta , gdzie wysłać dane zamówinie (miejscowość, kod pocztowy, ulica, nr_domu, nr_mieszkania),
+*typie adresu (czy jest on prywatny czy firmowy),
+*podzespolach (nazwa podzespołu, marka i cena z hurtowni).
+
+W projekcie znajduje się:
+*Funkcja, która liczy czas do zakończenia zamówienia,
+*Procedura, która usuwa zamowienie po upływie 60 dniowej gwarancji,
+*2 Wyzwalacze:
+a) Do nowego zamowienia powyżej 1000 zł dolicza 20 % rabat,
+b) Drugi do nowego klienta, który nie posiada firmy automatycznie zamienia pola nazwa firmy i regon na NULL.
+
+Tabele są połączone za pomocą kluczy obcych:
+*Do jednego zamowienia może być połączone wiele podzespołów, jeden pracownik, jeden koszt, jeden status i jeden klient.
+*Pracownik, może być w jednym dziale.
+*Klient, może mieć wiele adresów.
+
